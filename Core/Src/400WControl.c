@@ -1012,7 +1012,7 @@ void ExecControlOpenLoop()
 
 		//LL_GPIO_TogglePin(SD_CS_GPIO_Port, SD_CS_Pin);
 
-		if((SinWave_q31)<-1626880)
+		if((SinWave_q31)<0)
 		{
 
 
@@ -1055,7 +1055,7 @@ void ExecControlOpenLoop()
 		  }
 
 		}
-		if((SinWave_q31)>-1626880)
+		if((SinWave_q31)>0)
 		{
 
 		  olstart=FALSE;
@@ -1752,11 +1752,11 @@ void CalcAndSetACComponents(SystStatus_t state)
 
     Quadrature_Current_PID.Reference = (PID_Bus_Voltage(&BUS_Voltage_PID,Bus_Voltage));
 
-    Direct_Current_PID.Reference = (PID_Reactive_Power(&Reactive_Power_PID, Actual_QD_Power.Q_Reactive))-4000;
+    Direct_Current_PID.Reference = (PID_Reactive_Power(&Reactive_Power_PID, Actual_QD_Power.Q_Reactive));
 
-    Output_qId_Inverter = (s16)(PID_DirectCurrent(&Direct_Current_PID, ((Inverter_q_d.qI_Direct)-2000)));
+    Output_qId_Inverter = (s16)(PID_DirectCurrent(&Direct_Current_PID, ((Inverter_q_d.qI_Direct))));
 
-    Output_qIq_Inverter = ((s16)(PID_QuadratureCurrent(&Quadrature_Current_PID, ((Inverter_q_d.qI_Quadrature)+1500))));
+    Output_qIq_Inverter = ((s16)(PID_QuadratureCurrent(&Quadrature_Current_PID, ((Inverter_q_d.qI_Quadrature)))));
 
     CrossDecoupling_Control();
 
