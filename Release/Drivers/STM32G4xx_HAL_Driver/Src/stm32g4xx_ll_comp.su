@@ -1,0 +1,3 @@
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_comp.c:284:13:LL_COMP_DeInit	0	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_comp.c:321:13:LL_COMP_Init	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_comp.c:375:6:LL_COMP_StructInit	0	static

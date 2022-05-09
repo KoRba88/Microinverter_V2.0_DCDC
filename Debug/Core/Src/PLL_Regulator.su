@@ -1,0 +1,3 @@
+../Core/Src/PLL_Regulator.c:47:6:PID_Init_Integral_Part	0	static
+../Core/Src/PLL_Regulator.c:68:5:PLL_PID_Regulator	24	static
+../Core/Src/PLL_Regulator.c:199:5:PID_Bus_Voltage	8	static

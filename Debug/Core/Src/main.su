@@ -1,0 +1,6 @@
+../Core/Src/main.c:445:6:SystemClock_Config	8	static,ignoring_inline_asm
+../Core/Src/main.c:191:5:main	336	static,ignoring_inline_asm
+../Core/Src/main.c:2685:6:delay_us	8	static
+../Core/Src/main.c:2701:6:delay_ms	16	static
+../Core/Src/main.c:2710:6:HAL_TIMEx_BreakCallback	0	static
+../Core/Src/main.c:2732:6:Error_Handler	0	static,ignoring_inline_asm

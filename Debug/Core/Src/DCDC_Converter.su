@@ -1,0 +1,16 @@
+../Core/Src/DCDC_Converter.c:94:6:HRTIM_TIMD_DMA_START	0	static
+../Core/Src/DCDC_Converter.c:101:6:HRTIM_TIMD_DMA_STOP	0	static
+../Core/Src/DCDC_Converter.c:106:6:HRTIM_TIMF_DMA_START	0	static
+../Core/Src/DCDC_Converter.c:158:14:DCDC_SendCommand	0	static
+../Core/Src/DCDC_Converter.c:226:15:DCDC_GetStatus	0	static
+../Core/Src/DCDC_Converter.c:238:14:DCDC_GetConfiguration	4	static
+../Core/Src/DCDC_Converter.c:262:5:DCDC_GetPeriod	0	static
+../Core/Src/DCDC_Converter.c:273:5:DCDC_GetDutyCycle	0	static
+../Core/Src/DCDC_Converter.c:284:5:DCDC_GetFrequency	0	static
+../Core/Src/DCDC_Converter.c:295:5:DCDC_GetPhaseShift	0	static
+../Core/Src/DCDC_Converter.c:306:14:DCDC_SetPhaseShift	0	static
+../Core/Src/DCDC_Converter.c:332:14:DCDC_SetDutyCycle	40	static
+../Core/Src/DCDC_Converter.c:375:14:DCDC_SetFrequency	48	static
+../Core/Src/DCDC_Converter.c:520:6:DCDC_TIMx_Configuration	296	static
+../Core/Src/DCDC_Converter.c:118:14:DCDC_Init	16	static
+../Core/Src/DCDC_Converter.c:1089:5:DCDC_RegToDeadTime	0	static

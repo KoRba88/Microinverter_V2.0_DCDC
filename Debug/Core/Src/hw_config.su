@@ -1,0 +1,2 @@
+../Core/Src/hw_config.c:28:6:Delay	8	static
+../Core/Src/hw_config.c:62:6:Decrement_TimingDelay	0	static

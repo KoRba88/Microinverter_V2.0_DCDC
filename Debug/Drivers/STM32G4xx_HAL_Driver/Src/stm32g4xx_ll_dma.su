@@ -1,0 +1,3 @@
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c:145:10:LL_DMA_DeInit	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c:273:10:LL_DMA_Init	12	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c:341:6:LL_DMA_StructInit	0	static

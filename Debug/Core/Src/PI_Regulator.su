@@ -1,0 +1,4 @@
+../Core/Src/PI_Regulator.c:31:6:PID_Init	24	static
+../Core/Src/PI_Regulator.c:92:5:PID_DirectCurrent	0	static
+../Core/Src/PI_Regulator.c:177:5:PID_QuadratureCurrent	0	static
+../Core/Src/PI_Regulator.c:262:5:PID_Reactive_Power	0	static

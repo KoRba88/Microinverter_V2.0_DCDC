@@ -1,0 +1,2 @@
+../Core/Src/Solar_MPPT.c:32:6:Step_modify	0	static
+../Core/Src/Solar_MPPT.c:40:6:MPPT_func	8	static

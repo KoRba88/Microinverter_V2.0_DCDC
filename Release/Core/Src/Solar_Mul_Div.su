@@ -1,0 +1,2 @@
+../Core/Src/Solar_Mul_Div.c:17:7:mul_q15_q15_q31	0	static
+../Core/Src/Solar_Mul_Div.c:54:6:div_q31_q15_q15	8	static

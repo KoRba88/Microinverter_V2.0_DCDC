@@ -1,0 +1,9 @@
+../FATFS/Target/user_diskio_spi.c:205:5:rcvr_datablock	48	static
+../FATFS/Target/user_diskio_spi.c:262:6:send_cmd	56	static
+../FATFS/Target/user_diskio_spi.c:89:6:SPI_Timer_On	8	static
+../FATFS/Target/user_diskio_spi.c:94:9:SPI_Timer_Status	8	static
+../FATFS/Target/user_diskio_spi.c:321:16:USER_SPI_initialize	64	static
+../FATFS/Target/user_diskio_spi.c:377:16:USER_SPI_status	0	static
+../FATFS/Target/user_diskio_spi.c:392:16:USER_SPI_read	32	static
+../FATFS/Target/user_diskio_spi.c:431:16:USER_SPI_write	64	static
+../FATFS/Target/user_diskio_spi.c:472:16:USER_SPI_ioctl	64	static

@@ -1,0 +1,10 @@
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:657:13:LL_ADC_CommonDeInit	0	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:699:13:LL_ADC_CommonInit	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:781:6:LL_ADC_CommonStructInit	0	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:814:13:LL_ADC_DeInit	24	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1094:13:LL_ADC_Init	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1140:6:LL_ADC_StructInit	0	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1182:13:LL_ADC_REG_Init	8	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1274:6:LL_ADC_REG_StructInit	0	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1326:13:LL_ADC_INJ_Init	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c:1397:6:LL_ADC_INJ_StructInit	0	static
