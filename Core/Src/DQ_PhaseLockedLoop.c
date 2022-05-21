@@ -20,6 +20,8 @@ s16 SimpleMovingAvarage_DC_BUS(s16 Volt_Output_nofiltered_DC_BUS);
 #define samples_DC_BUS 16
 #define Delay90 (-((SAMPLINGFREQ/50/4)-256))
 
+#define Delay10 (-((SAMPLINGFREQ/50/36)-256))
+
 SystStatus_t Freq_Control= FREQ_OUT_OF_RANGE;
 SystStatus_t GDVoltage = GRID_VOLTAGE_OUT_OF_RANGE;
 extern s16 Grid_Voltage_max;
@@ -773,7 +775,8 @@ void Calc_Theta_Grid(s16 Input_Integration)
 
  Delta_Theta = (s16)(Delta_Theta_tmp>>16);
 
- Theta=Theta+Delta_Theta;//
+ Theta=Theta+Delta_Theta + 0;//
+
 
  Theta_time++;
 
@@ -1194,8 +1197,8 @@ Curr_Components DQ_Filtering(Curr_Components QD_Current) //// 10 próbek / 25khz
    Sum_Quadrature=(s32)((Sum_Quadrature+QD_Current.qI_Quadrature)-(AVG_Quadrature_Current));
    Sum_Direct=(s32)((Sum_Direct+QD_Current.qI_Direct)-(AVG_Direct_Current));
 
-   AVG_Quadrature_Current=(s16)((Sum_Quadrature/12));
-   AVG_Direct_Current=(s16)((Sum_Direct/12));
+   AVG_Quadrature_Current=(s16)((Sum_Quadrature/8));
+   AVG_Direct_Current=(s16)((Sum_Direct/8));
 
    AVG_Current.qI_Direct = AVG_Direct_Current;
    AVG_Current.qI_Quadrature = AVG_Quadrature_Current;
@@ -1265,6 +1268,36 @@ s16 Generate_90Degrees_Delay( s16 Alpha_Component)
 
 }
 
+/*******************************************************************************
+* Function Name  : Generate_90Degrees_Delay
+* Description    : generates a 90 degrees phase shift for beta component
+
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+
+s16 Generate_10Degrees_Delay( s16 Alpha_Component)
+
+{
+
+  static u8 Count_Beta=0;
+  static u8 Count_Alpha=0;
+
+  s16 Output=0;
+
+  Count_Alpha=(u8)((Count_Beta+Delay10));// for 90 degrees 36 //((1/50Hz)/(1/20.600kHz)/4)-256
+  //Count_Alpha=(u8)((Count_Beta+141));// for 90 degrees 36
+  BUFFER_Beta_Acquisitions[Count_Beta]=Alpha_Component;
+
+  Output=-(BUFFER_Beta_Acquisitions[(u8)Count_Alpha]);// to compensate offset
+
+  Count_Beta++;
+
+  return ((s16)(Output));
+
+
+}
 /*******************************************************************************
 * Function Name  : Check_BUS_DC
 * Description    : check the BUS DC status

@@ -91,8 +91,8 @@ extern SPI_HandleTypeDef hspi4;
 extern UART_HandleTypeDef huart3;
 
 uint16_t buffer_set = 0;
-uint16_t buffer[4095]={0};
-uint16_t buffer2[4095]={0};
+uint16_t buffer[6][4095]={0};
+//uint16_t buffer2[4095]={0};
 //uint16_t ii=0;
 uint8_t update_i=0;
 s16 PV_Voltage=0;
@@ -238,14 +238,14 @@ static ControlMode_t ControlMode;
 static s16 State = 0;
 static s16 Fault = FAULT_NONE;
 
-static s16 qValpha_shifted=0;
+//static s16 qValpha_shifted=0;
 static u16 qValpha_shifted_pos=0;
 static u32 Pulse1=0;
 static u32 Pulse2=0;
-static u16 testing=0;
+//static u16 testing=0;
 
-static float Pulse1f;
-static float Pulse2f;
+//static float Pulse1f;
+//static float Pulse2f;
 
 bool polarity=FALSE;
 bool LF_MOS_SET=TRUE;
@@ -991,7 +991,7 @@ void ExecControlOpenLoop()
     //Theta += 131;//50khz 50hz
     //Theta += 158;
     Theta += 154;
-    Index_Sin = ((u16)(Theta>>7) & (u16)(0x01FF));
+    Index_Sin = (((u16)(Theta>>7)) & (u16)(0x01FF));
 
     Sin_Theta = Sin_Cos_Table[Index_Sin];
     mul_q15_q15_q31(Amplitude,Sin_Theta,&SinWave_q31);
@@ -1018,41 +1018,11 @@ void ExecControlOpenLoop()
 
 		  polarity=FALSE;
 
-		  qValpha_shifted_pos = ((u16)(SineWave+(TIMF_PERIOD)-330));
+		  qValpha_shifted_pos = ((u16)(SineWave+(TIMF_PERIOD)-327));
 		  Pulse1=(u16)(qValpha_shifted_pos);
 		  DCAC_SetPulse((u16)(Pulse1), (u16)(Pulse1));
 
-		  if((LF_MOS_SET == TRUE) || FIRST_CYCLE == TRUE)
-		  {
-			  LL_GPIO_ResetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
-			  RESET_TIMER_D = FALSE;
-			  LF_MOS_SET = FALSE;
-			  FIRST_CYCLE = FALSE;
 
-
-			  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP2xR = (uint32_t)(60);
-
-			  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= 1 << 19;
-
-			  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-			  LF_UPDATE = TRUE;
-
-
-		  }
-		  else
-		  {
-			  if (LF_UPDATE == TRUE)
-			  {
-
-				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R &= ~ (1 << 19);
-
-				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].RSTx1R |= (1 << 0);
-
-				  LF_UPDATE = FALSE;
-				  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-			  }
-
-		  }
 
 		}
 		if((SinWave_q31)>0)
@@ -1061,78 +1031,95 @@ void ExecControlOpenLoop()
 		  olstart=FALSE;
 		  polarity=TRUE;
 
-		  qValpha_shifted_pos = (u16)(300+(s16)(SineWave));
+		  qValpha_shifted_pos = (u16)(327+(s16)(SineWave));
 		  Pulse1=(u16)(qValpha_shifted_pos);
 
 		  DCAC_SetPulse((u16)(Pulse1), (u16)(Pulse1));
 
-		  if((LF_MOS_SET == FALSE) || (FIRST_CYCLE == TRUE))
-		  {
-
-			  RESET_TIMER_D = FALSE;
-			  //LF_MOS_SET = TRUE;
-			  FIRST_CYCLE = FALSE;
-
-			  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP2xR = (uint32_t)(16);
-
-			  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= 1 << 19;
-
-			  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-
-			  LF_UPDATE = TRUE;
 
 
-		  }
-		  else
-		  {
+		}
 
-			  if (LF_UPDATE == TRUE)
+		if((SinWave_q31)<00000000)
+
+		{
+
+			  if((LF_MOS_SET == TRUE) || FIRST_CYCLE == TRUE)
 			  {
-				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R &= ~ (1 << 19);
-				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= (1 << 0);
-				  LF_UPDATE = FALSE;
+				  LL_GPIO_ResetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
+				  RESET_TIMER_D = FALSE;
+				  LF_MOS_SET = FALSE;
+				  FIRST_CYCLE = FALSE;
+
+
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP2xR = (uint32_t)(60);
+
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= 1 << 3;
+
+				  //HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP1xR = (uint32_t)(Pulse1-330);
+
 				  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
+				  LF_UPDATE = TRUE;
+
+
+			  }
+			  else
+			  {
+				  if (LF_UPDATE == TRUE)
+				  {
+
+					  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R &= ~ (1 << 3);
+
+					  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].RSTx1R |= (1 << 0);
+
+
+					  LF_UPDATE = FALSE;
+					  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
+				  }
+
 			  }
 
-		  }
-		  LF_MOS_SET = TRUE;
-
 		}
 
+		if((SinWave_q31)>00000000)
 
-		if(polarity==FALSE)
 		{
-		//  qValpha_shifted_pos = ((u16)(SineWave+(TIMF_PERIOD)-500));
-		//  Pulse1=(u16)(qValpha_shifted_pos);
+			 if((LF_MOS_SET == FALSE) || (FIRST_CYCLE == TRUE))
+					  {
+
+						  RESET_TIMER_D = FALSE;
+						  //LF_MOS_SET = TRUE;
+						  FIRST_CYCLE = FALSE;
+
+						  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP2xR = (uint32_t)(16);
+
+						  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= 1 << 3;
+
+						  //HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP1xR = (uint32_t)(Pulse1+300);
+
+						  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
+
+						  LF_UPDATE = TRUE;
+
+
+					  }
+					  else
+					  {
+
+						  if (LF_UPDATE == TRUE)
+						  {
+							  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R &= ~ (1 << 3);
+							  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= (1 << 0);
+							  LF_UPDATE = FALSE;
+
+							  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
+						  }
+
+					  }
+					  LF_MOS_SET = TRUE;
 
 		}
-		else if (polarity==TRUE)
-		{
 
-		//  qValpha_shifted_pos = (u16)(400+(s16)(SineWave));
-		//  Pulse1=(u16)(qValpha_shifted_pos);
-
-		}
-
-		//DCAC_SetPulse((u16)(Pulse1), (u16)(Pulse1));
-
-		if(polarity==FALSE)
-		{
-		//HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-		//update_i=0;
-		}
-
-		if(polarity==TRUE)
-		{
-			if(update_i<5)
-			{
-				//HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-				//HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
-				//LF_UPDATE = FALSE;
-				//update_i++;
-			}
-
-		}
     }
 }
 
@@ -1168,7 +1155,7 @@ void SetAmplitude(s16 amp)
 *******************************************************************************/
 void ExecControl()
 {
-	LL_GPIO_SetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
+	//LL_GPIO_SetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
     //DS_SendCommand(DS_Stop);
     //DCAC_SendCommand(DCAC_Stop);
 	 // State_Control = STOP;
@@ -1263,6 +1250,10 @@ void ExecControl()
   Grid_Volt_q_d= DQ_PLL_Grid(Grid_Voltage);
   //Grid_Volt_q_d.qV_Quadrature = SimpleMovingAvarage_quadrature(Grid_Volt_q_d.qV_Quadrature);
   //Grid_Volt_q_d.qV_Direct = SimpleMovingAvarage_direct(Grid_Volt_q_d.qV_Direct);
+  if(State_Control==GRID_INSERTION && DQ_PLL_PID.Reference < 50 && (Theta_time==((Theta_Grid))))
+  {
+	  //DQ_PLL_PID.Reference = (DQ_PLL_PID.Reference) + 1;
+  }
   Output_qVd_Grid=(s16)(PLL_PID_Regulator(&DQ_PLL_PID,Grid_Volt_q_d));
   Calc_Theta_Grid(Output_qVd_Grid);
 /*
@@ -1319,7 +1310,9 @@ if(State_Control==GRID_INSERTION && MPPT_EN==TRUE)
   //AlphaBeta_Filtering(qIalpha_Inverter,qIbeta_Inverter);
 
   //AVG_Current_DC=(s16)Current_DC_Filtering(PV_Current); // NIC NIE ROBI
+
   Inverter_q_d=DQ_Filtering(DQ_Current_Inverter(qIalpha_Inverter,qIbeta_Inverter)); //test filtra
+
   //Inverter_q_d=DQ_Current_Inverter(qIalpha_Inverter,qIbeta_Inverter); //test bez filtra
 
   //Inverter_q_d.qI_Quadrature = SimpleMovingAvarage_quadrature(Inverter_q_d.qI_Quadrature);
@@ -1333,11 +1326,16 @@ if(State_Control==GRID_INSERTION && MPPT_EN==TRUE)
 
   Actual_QD_Power =  DQ_Power_Estimation(Inverter_q_d);
 
-  if (ii<4095)
+  if ((ii<2048) && (State_Control == GRID_INSERTION))
   {
-  ii++;
- 	buffer[ii]=Actual_QD_Power.P_Active;
- 	buffer2[ii]=Actual_QD_Power.Q_Reactive;
+
+ 	buffer[0][ii]=Actual_QD_Power.P_Active;
+ 	buffer[1][ii]=Actual_QD_Power.Q_Reactive;
+ 	//buffer[2][ii]=Inverter_q_d.qI_Direct;
+ 	buffer[3][ii]=Inverter_q_d.qI_Quadrature;
+ 	//buffer[4][ii]=Grid_Volt_q_d.qV_Direct;
+ 	buffer[5][ii]=Grid_Volt_q_d.qV_Quadrature;
+ 	ii++;
   }
 
   /**********************************************************************/
@@ -1550,30 +1548,34 @@ if(State_Control==GRID_INSERTION && MPPT_EN==TRUE)
 
     CalcAndSetACComponents(State_Control);
 
-	  if(OC_PROT_ON < REL_ON_TICK+7000) //  stabilize relay
+    /*
+
+	  if(OC_PROT_ON < REL_ON_TICK+27000) //  stabilize relay
 		  {
 			  OC_PROT_ON++;
 		  }
-	  if(OC_PROT_ON == REL_ON_TICK+7000)
+	  if(OC_PROT_ON == REL_ON_TICK+27000)
 		  {
 
 		      COMP7 ->CSR |= COMP_CSR_EN;//Glitch test
+
 		      //TIM1->AF1 |= TIM1_AF1_BKINE; //ENABLE
-			  OC_PROT_ON = REL_ON_TICK+1+7000;
+
+			  OC_PROT_ON = REL_ON_TICK+1+27000;
 		  }
+	  */
 
     if ( MPPT_EN==TRUE)
 
     {
 
-		  if (ii<8000)
-		  {
+		 // if (ii<8000)
+		 // {
 			  //P_ACTIVE_BUFFER[ii] = Inverter_q_d.qI_Direct;
-
 			  //P_REACTIVE_BUFFER[ii] = Inverter_q_d.qI_Quadrature;
 			  //GRID_IAC_BUFFER[ii] = DataSensingIO.AC_LineCurrent;
 			  //ii++;
-		  }
+		 // }
 /*
 		  else if (ii==8000)
 		  {
@@ -1750,7 +1752,7 @@ if(State_Control==GRID_INSERTION && MPPT_EN==TRUE)
 void CalcAndSetACComponents(SystStatus_t state)
 {
 
-    Quadrature_Current_PID.Reference = (PID_Bus_Voltage(&BUS_Voltage_PID,Bus_Voltage));
+    Quadrature_Current_PID.Reference = 26000;//(PID_Bus_Voltage(&BUS_Voltage_PID,Bus_Voltage));
 
     Direct_Current_PID.Reference = (PID_Reactive_Power(&Reactive_Power_PID, Actual_QD_Power.Q_Reactive));
 
@@ -1771,9 +1773,16 @@ void CalcAndSetACComponents(SystStatus_t state)
 		if(Control_Volt_AlphaBeta.qValpha <= 0) //50103 303
 		{
 			  polarity=TRUE;
-
+			  LL_GPIO_SetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
 			  Pulse1 = (((u16)(new_mul_q15_q15_q31(-Control_Volt_AlphaBeta.qValpha, MODINDEX) >> 16)));
 			  DCAC_SetPulse(Pulse1,Pulse1);
+
+		      if(Pulse1<=500)
+		      {
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0x640464;
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0x640464;
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0x640464;
+		      }
 
 			  if((LF_MOS_SET == FALSE) || (FIRST_CYCLE == TRUE))
 			  {
@@ -1783,6 +1792,7 @@ void CalcAndSetACComponents(SystStatus_t state)
 				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP2xR = (uint32_t)(16);
 
 				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= 1 << 19;
+
 
 				  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
 
@@ -1796,6 +1806,8 @@ void CalcAndSetACComponents(SystStatus_t state)
 				  {
 					  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R &= ~ (1 << 19);
 					  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R |= (1 << 0);
+
+
 					  LF_UPDATE = FALSE;
 					  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
 				  }
@@ -1809,9 +1821,16 @@ void CalcAndSetACComponents(SystStatus_t state)
         {
 
     	      polarity=FALSE;
-
+    	      LL_GPIO_ResetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
 			  Pulse2 = ((u16)(new_mul_q15_q15_q31((s16)(0x8000 - Control_Volt_AlphaBeta.qValpha ), MODINDEX) >> 16));
 			  DCAC_SetPulse(Pulse2,Pulse2);
+
+		      if(Pulse2>=24500 && Pulse2<26000)
+		      {
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0x640464;
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0x640464;
+				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0x640464;
+		      }
 
     		  if((LF_MOS_SET == TRUE) || FIRST_CYCLE == TRUE)
     		  {
@@ -1836,6 +1855,9 @@ void CalcAndSetACComponents(SystStatus_t state)
     				  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].RSTx1R |= (1 << 0);
 
     				  LF_UPDATE = FALSE;
+
+
+
     				  HRTIM1_COMMON->CR2 |= (0x50 << 0); //UPDATE TIM F AND D SIMULT
     			  }
 

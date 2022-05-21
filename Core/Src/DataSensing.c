@@ -478,7 +478,7 @@ void DS_AcquisitionEvent(void)
 			  //LL_GPIO_TogglePin(SD_CS_GPIO_Port, SD_CS_Pin);
 			  //TODO
 			  //ExecControlOpenLoop();
-			  LL_GPIO_SetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
+			 // LL_GPIO_SetOutputPin(SD_CS_GPIO_Port, SD_CS_Pin);
 				if (DataSensing.State == DS_Running)
 				{
 					//If event function is associeted

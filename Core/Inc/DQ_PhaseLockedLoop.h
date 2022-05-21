@@ -55,6 +55,7 @@ s16 Current_DC_Filtering(s16);
 void AlphaBeta_Filtering(s16, s16);
 
 s16 Generate_90Degrees_Delay(s16);
+s16 Generate_10Degrees_Delay(s16);
 
 void Check_BUS_DC(s16);
 

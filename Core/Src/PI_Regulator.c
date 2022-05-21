@@ -43,7 +43,7 @@ void PID_Init(PI_ControllerTYPEDEF *Direct_PID, PI_ControllerTYPEDEF *Quadrature
   //PI Id
   Direct_PID->Reference =0;                       //Output_PID_Reactive_Power; //Brak zmian (load żarówki)
   Direct_PID->Kp_Gain = 200;//1100;//870;//2407;//3000;//9488;//7600;//4253428;//4100;//6500;  // filtro RIPEM 7500              //PID_KP_DEFAULT;
-  Direct_PID->Ki_Gain = 2000;//2857;//4489;//425;//56;//200;//10;//20;//                     //PID_KI_DEFAULT;
+  Direct_PID->Ki_Gain = 1500;//2857;//4489;//425;//56;//200;//10;//20;//                     //PID_KI_DEFAULT;
 
   Direct_PID->Lower_Limit_Output=  -6900;//-8900;// -6900;       //Lower Limit for Output limitation
   Direct_PID->Upper_Limit_Output=  6900;// 8900;//6900;      //Upper Limit for Output limitation  THD
@@ -63,16 +63,16 @@ void PID_Init(PI_ControllerTYPEDEF *Direct_PID, PI_ControllerTYPEDEF *Quadrature
   // cambiamo il ref....
   Reactive_PID->Reference =0;//30               //PID REFERENCE DEFAULT
   Reactive_PID->Kp_Gain =1500; // filtro RIPEM 3400 //PID_KP_DEFAULT; //Brak zmian (load żarówki)
-  Reactive_PID->Ki_Gain =1500;                 //PID_KI_DEFAULT;      //Brak zmian (load żarówki)
+  Reactive_PID->Ki_Gain =10;                 //PID_KI_DEFAULT;      //Brak zmian (load żarówki)
 
   Reactive_PID->Lower_Limit_Output=-32767;    //Lower Limit for Output limitation
   Reactive_PID->Upper_Limit_Output=32767;     //Upper Limit for Output limitation
   Reactive_PID->Max_PID_Output = FALSE;
   Reactive_PID->Min_PID_Output = FALSE;
 
-  Bus_DC_PID->Reference = 10500;//11000; //7692; //8200;//8500; //13000; //15000  //Brak zmian (load żarówki)
+  Bus_DC_PID->Reference = 13000;//11000; //7692; //8200;//8500; //13000; //15000  //Brak zmian (load żarówki)
   Bus_DC_PID->Kp_Gain = 8000;//8116;//8100;//8100;//10000;//24000;   //5000      //PID_KP_DEFAULT;
-  Bus_DC_PID->Ki_Gain = 200;//600;//200;//1050;//20//400;    //300   //PID_KI_DEFAULT;
+  Bus_DC_PID->Ki_Gain = 400;//600;//200;//1050;//20//400;    //300   //PID_KI_DEFAULT;
 
   Bus_DC_PID->Lower_Limit_Output= 0;  //S16_MIN;     //Lower Limit for Output limitation
   Bus_DC_PID->Upper_Limit_Output= 32767; //Upper Limit for Output limitation

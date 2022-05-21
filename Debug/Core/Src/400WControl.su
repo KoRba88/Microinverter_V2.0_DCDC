@@ -16,8 +16,8 @@
 ../Core/Src/400WControl.c:394:6:InitControl	88	static
 ../Core/Src/400WControl.c:772:6:StopControl	0	static
 ../Core/Src/400WControl.c:785:6:RefreshDisplayControlParam	0	static
-../Core/Src/400WControl.c:1145:5:GetAmplitude	0	static
-../Core/Src/400WControl.c:1156:6:SetAmplitude	0	static
-../Core/Src/400WControl.c:1750:6:CalcAndSetACComponents	16	static
-../Core/Src/400WControl.c:1169:6:ExecControl	40	static
-../Core/Src/400WControl.c:1861:6:HAL_HRTIM_Fault1Callback	0	static
+../Core/Src/400WControl.c:1132:5:GetAmplitude	0	static
+../Core/Src/400WControl.c:1143:6:SetAmplitude	0	static
+../Core/Src/400WControl.c:1752:6:CalcAndSetACComponents	16	static
+../Core/Src/400WControl.c:1156:6:ExecControl	40	static
+../Core/Src/400WControl.c:1883:6:HAL_HRTIM_Fault1Callback	0	static

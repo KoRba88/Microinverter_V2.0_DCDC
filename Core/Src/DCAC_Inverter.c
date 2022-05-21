@@ -162,8 +162,32 @@ DCAC_Error_t DCAC_SetPulse(u32 PulseChannel1, u32 PulseChannel2)
 //    if (PulseCurrent < DCAC_MAX_PULSE && PulseCurrent > DCAC_MIN_PULSE &&
 //        PulseVoltage < DCAC_MAX_PULSE && PulseVoltage > DCAC_MIN_PULSE )
 //    {
-      if(PulseChannel1>=DCAC_MAX_PULSE) PulseChannel1=DCAC_MAX_PULSE; //-110
-      if(PulseChannel1<=DCAC_MIN_PULSE) PulseChannel1=DCAC_MIN_PULSE;
+      if(PulseChannel1>=DCAC_MAX_PULSE+600) PulseChannel1=DCAC_MAX_PULSE+600; //-110
+      if(PulseChannel1<=DCAC_MIN_PULSE+200) PulseChannel1=DCAC_MIN_PULSE+200;
+
+     // if(PulseChannel1<=DCAC_MIN_PULSE+600)
+    // {
+	//	  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0x640464;
+	//	  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0x640464;
+	//	  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0x640464;
+    //  }
+    //  else if(PulseChannel1>=DCAC_MAX_PULSE-1200)
+	//  {
+		//  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0x640464;
+		//  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0x640464;
+		//  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0x640464;
+	//  }
+
+     // else
+
+    //  {
+		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0xc804c8;
+		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0xc804c8;
+		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0xc804c8;
+    // }
+
+
+
      //  if(PulseChannel1>=TIMF_PERIOD*0.97) PulseChannel1=TIMF_PERIOD*0.97;
 
       // if(PulseChannel1<=100) PulseChannel1=100;

@@ -1,8 +1,8 @@
 ../Core/Src/DCAC_Inverter.c:65:14:DCAC_Init	4	static
 ../Core/Src/DCAC_Inverter.c:98:14:DCAC_SendCommand	0	static
-../Core/Src/DCAC_Inverter.c:157:14:DCAC_SetPulse	4	static
-../Core/Src/DCAC_Inverter.c:212:15:DCAC_GetStatus	0	static
-../Core/Src/DCAC_Inverter.c:224:14:DCAC_GetConfiguration	0	static
-../Core/Src/DCAC_Inverter.c:246:5:DCAC_GetDeadTime	0	static
-../Core/Src/DCAC_Inverter.c:257:14:DCAC_SetDeadTime	4	static
-../Core/Src/DCAC_Inverter.c:410:5:DCAC_RegToDeadTime	0	static
+../Core/Src/DCAC_Inverter.c:157:14:DCAC_SetPulse	8	static
+../Core/Src/DCAC_Inverter.c:236:15:DCAC_GetStatus	0	static
+../Core/Src/DCAC_Inverter.c:248:14:DCAC_GetConfiguration	0	static
+../Core/Src/DCAC_Inverter.c:270:5:DCAC_GetDeadTime	0	static
+../Core/Src/DCAC_Inverter.c:281:14:DCAC_SetDeadTime	4	static
+../Core/Src/DCAC_Inverter.c:434:5:DCAC_RegToDeadTime	0	static
