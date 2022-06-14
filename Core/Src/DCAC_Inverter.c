@@ -162,8 +162,12 @@ DCAC_Error_t DCAC_SetPulse(u32 PulseChannel1, u32 PulseChannel2)
 //    if (PulseCurrent < DCAC_MAX_PULSE && PulseCurrent > DCAC_MIN_PULSE &&
 //        PulseVoltage < DCAC_MAX_PULSE && PulseVoltage > DCAC_MIN_PULSE )
 //    {
-      if(PulseChannel1>=DCAC_MAX_PULSE+600) PulseChannel1=DCAC_MAX_PULSE+600; //-110
-      if(PulseChannel1<=DCAC_MIN_PULSE+200) PulseChannel1=DCAC_MIN_PULSE+200;
+
+      if(PulseChannel1>=DCAC_MAX_PULSE) PulseChannel1=DCAC_MAX_PULSE; //-110
+      if(PulseChannel2>=DCAC_MAX_PULSE) PulseChannel2=DCAC_MAX_PULSE; //-110
+
+      if(PulseChannel1<=DCAC_MIN_PULSE) PulseChannel1=DCAC_MIN_PULSE;
+      if(PulseChannel2<=DCAC_MIN_PULSE) PulseChannel2=DCAC_MIN_PULSE;
 
      // if(PulseChannel1<=DCAC_MIN_PULSE+600)
     // {
@@ -181,9 +185,9 @@ DCAC_Error_t DCAC_SetPulse(u32 PulseChannel1, u32 PulseChannel2)
      // else
 
     //  {
-		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0xc804c8;
-		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0xc804c8;
-		  HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0xc804c8;
+		 // HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].DTxR = 0xc804c8;
+		 // HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_E].DTxR = 0xc804c8;
+		 // HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].DTxR = 0xc804c8;
     // }
 
 
@@ -214,9 +218,13 @@ DCAC_Error_t DCAC_SetPulse(u32 PulseChannel1, u32 PulseChannel2)
 
      // TO BE DONE !!!!!!!!!!!!!!!
 
-      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP1xR = (uint32_t)(PulseChannel1); //FROM CMP4
+      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP1xR = (uint32_t)(PulseChannel1+250); //FROM CMP4
+      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP1xR = (uint32_t)(PulseChannel1+250); //FROM CMP4
 
-      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP1xR = (uint32_t)(PulseChannel1);
+      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_F].CMP3xR = (uint32_t)(PulseChannel2-250); //FROM CMP4
+      HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP3xR = (uint32_t)(PulseChannel2-250); //FROM CMP4
+
+      //HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].CMP1xR = (uint32_t)(PulseChannel1+250);
 
 
 

@@ -83,7 +83,7 @@ u32 frequencyinc;
 u32 NEW_DCDC_PERIOD;
 u32 NEW_isoDCDC_PERDIOD;
 
-volatile u32 TIMD_DMA_Buffer[1] = {0X0}; //{(uint32_t)TIMF_PERIOD};
+volatile u32 TIMD_DMA_Buffer[1] = {0x0}; //{(uint32_t)TIMF_PERIOD};
 volatile u32 TIMF_DMA_Buffer[1] = {0x10};
 /*******************************************************************************
 * Function Name  : HRTIM_TIMD_DMA
@@ -181,10 +181,10 @@ DCDC_Error_t DCDC_SendCommand(DCDC_Commands_t cmd)
 
        	  //TESTY HRTIM TIMD 50Hz
 
-            HRTIM1_COMMON->OENR |=HRTIM_OENR_TA1OEN; //TIMA OUTPUT 1 ENABLE
-            HRTIM1_COMMON->OENR |=HRTIM_OENR_TA2OEN; //TIMA OUTPUT 2 ENABLE
-            HRTIM1_COMMON->OENR |=HRTIM_OENR_TB1OEN; //TIMB OUTPUT 1 ENABLE
-            HRTIM1_COMMON->OENR |=HRTIM_OENR_TB2OEN; //TIMB OUTPUT 2 ENABLE
+          //  HRTIM1_COMMON->OENR |=HRTIM_OENR_TA1OEN; //TIMA OUTPUT 1 ENABLE
+          //  HRTIM1_COMMON->OENR |=HRTIM_OENR_TA2OEN; //TIMA OUTPUT 2 ENABLE
+          //  HRTIM1_COMMON->OENR |=HRTIM_OENR_TB1OEN; //TIMB OUTPUT 1 ENABLE
+          //  HRTIM1_COMMON->OENR |=HRTIM_OENR_TB2OEN; //TIMB OUTPUT 2 ENABLE
 
 
 
@@ -731,15 +731,15 @@ void DCDC_TIMx_Configuration(void)
     Error_Handler();
   }
   pTimerCfg.InterruptRequests = HRTIM_TIM_IT_NONE;
-  pTimerCfg.DMARequests = HRTIM_TIM_DMA_RST1;//HRTIM_TIM_DMA_SET1;
-  pTimerCfg.DMASrcAddress = (uint32_t)&TIMD_DMA_Buffer[0];//(uint32_t)&TIMD_DMA_Buffer[0];
-  pTimerCfg.DMADstAddress = (uint32_t)&(HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R);//(uint32_t)&(hhrtim1.Instance->sCommonRegs.BDMADR); //(uint32_t)&(HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R);
+  pTimerCfg.DMARequests = HRTIM_TIM_DMA_SET2;//HRTIM_TIM_DMA_RST1;//HRTIM_TIM_DMA_SET1;
+  pTimerCfg.DMASrcAddress = (uint32_t)&TIMD_DMA_Buffer[0];//(uint32_t)&TIMD_DMA_Buffer[0];//(uint32_t)&TIMD_DMA_Buffer[0];
+  pTimerCfg.DMADstAddress = (uint32_t)&(HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].RSTx2R);//(uint32_t)&(HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx2R);//(uint32_t)&(hhrtim1.Instance->sCommonRegs.BDMADR); //(uint32_t)&(HRTIM1->sTimerxRegs[HRTIM_TIMERINDEX_TIMER_D].SETx1R);
   pTimerCfg.DMASize = 1; //ZMIANA Z 0x1
   pTimerCfg.InterleavedMode = HRTIM_INTERLEAVED_MODE_DISABLED;
   pTimerCfg.PreloadEnable = HRTIM_PRELOAD_ENABLED;
   pTimerCfg.RepetitionUpdate = HRTIM_UPDATEONREPETITION_ENABLED;
   pTimerCfg.DelayedProtectionMode = HRTIM_TIMER_D_E_DELAYEDPROTECTION_DISABLED;
-  //pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_DISABLED; //DODANE
+  pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_DISABLED; //DODANE
   pTimerCfg.UpdateTrigger = HRTIM_TIMUPDATETRIGGER_TIMER_F; //HRTIM_TIMUPDATETRIGGER_TIMER_F;
   pTimerCfg.ResetTrigger = HRTIM_TIMRESETTRIGGER_OTHER5_CMP2;
   pTimerCfg.UpdateGating = HRTIM_UPDATEGATING_DMABURST;
@@ -762,12 +762,12 @@ void DCDC_TIMx_Configuration(void)
   {
     Error_Handler();
   }
-  pTimerCfg.DMARequests = HRTIM_TIM_DMA_SET1;
+  pTimerCfg.DMARequests = HRTIM_TIM_DMA_NONE;
   pTimerCfg.DMASrcAddress = 0x0000;//(uint32_t)&TIMF_DMA_Buffer[0];
   pTimerCfg.DMADstAddress = 0x0000;//(uint32_t)&(HRTIM1_COMMON->CR2);
   pTimerCfg.PreloadEnable = HRTIM_PRELOAD_ENABLED;
   pTimerCfg.RepetitionUpdate = HRTIM_UPDATEONREPETITION_ENABLED;
-  pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_ENABLED;
+  pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_DISABLED;
   pTimerCfg.DelayedProtectionMode = HRTIM_TIMER_F_DELAYEDPROTECTION_DISABLED;
   pTimerCfg.ResetTrigger = HRTIM_TIMRESETTRIGGER_NONE;
   if (HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_F, &pTimerCfg) != HAL_OK)
@@ -833,8 +833,8 @@ void DCDC_TIMx_Configuration(void)
     Error_Handler();
   }
   pDeadTimeCfg.Prescaler = HRTIM_TIMDEADTIME_PRESCALERRATIO_MUL4;
-  pDeadTimeCfg.RisingValue = (uint32_t)(TIMF_DEADTIME);
-  pDeadTimeCfg.FallingValue = (uint32_t)(TIMF_DEADTIME);
+  pDeadTimeCfg.RisingValue = (uint32_t)(0);
+  pDeadTimeCfg.FallingValue = (uint32_t)(0);
   if (HAL_HRTIM_DeadTimeConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_E, &pDeadTimeCfg) != HAL_OK)
   {
     Error_Handler();
@@ -859,7 +859,7 @@ void DCDC_TIMx_Configuration(void)
     Error_Handler();
   }
   pOutputCfg.IdleLevel = HRTIM_OUTPUTIDLELEVEL_INACTIVE;
-  pOutputCfg.SetSource = HRTIM_OUTPUTSET_TIMDEV8_TIMFCMP1;//HRTIM_OUTPUTSET_TIMDEV8_TIMFCMP1; //HRTIM_OUTPUTSET_TIMCMP1;
+  pOutputCfg.SetSource = HRTIM_OUTPUTSET_TIMCMP1;//HRTIM_OUTPUTSET_TIMDEV8_TIMFCMP1;//HRTIM_OUTPUTSET_TIMDEV8_TIMFCMP1; //HRTIM_OUTPUTSET_TIMCMP1;
   pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_NONE; //HRTIM_OUTPUTRESET_TIMDEV9_TIMFCMP3;
   if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, HRTIM_OUTPUT_TD1, &pOutputCfg) != HAL_OK)
   {
@@ -882,7 +882,7 @@ void DCDC_TIMx_Configuration(void)
     Error_Handler();
   }
   pOutputCfg.SetSource = HRTIM_OUTPUTSET_NONE;
-  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_NONE; //FROM CMP2
+  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_TIMCMP3;//HRTIM_OUTPUTRESET_TIMDEV9_TIMFCMP3; //FROM CMP2
   if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, HRTIM_OUTPUT_TD2, &pOutputCfg) != HAL_OK)
   {
     Error_Handler();
@@ -901,7 +901,7 @@ void DCDC_TIMx_Configuration(void)
     Error_Handler();
   }
   pOutputCfg.SetSource = HRTIM_OUTPUTSET_NONE;
-  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_NONE;
+  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_TIMCMP3;
   if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_F, HRTIM_OUTPUT_TF2, &pOutputCfg) != HAL_OK)
   {
     Error_Handler();

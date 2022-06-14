@@ -385,10 +385,10 @@ int main(void)
 
 
 
-   InitControl(ClosedLoop);
+   //InitControl(ClosedLoop);
 
-   //InitControl(OpenLoop);
-   //DS_SendCommand(DS_Start);
+   InitControl(OpenLoop);
+   DS_SendCommand(DS_Start);
    //HRTIM1_COMMON->OENR |=HRTIM_OENR_TA1OEN; //TIMA OUTPUT 1 ENABLE
    //HRTIM1_COMMON->OENR |=HRTIM_OENR_TA2OEN; //TIMA OUTPUT 2 ENABLE
    //HRTIM1_COMMON->OENR |=HRTIM_OENR_TB1OEN; //TIMB OUTPUT 1 ENABLE
@@ -404,7 +404,7 @@ int main(void)
 
    //HRTIM1_COMMON->OENR |=HRTIM_OENR_TE1OEN; //TIME OUTPUT 1 ENABLE
 
-   //HRTIM1_COMMON->OENR |=HRTIM_OENR_TE2OEN; //TIME OUTPUT 2 ENABLE
+   HRTIM1_COMMON->OENR |=HRTIM_OENR_TE2OEN; //TIME OUTPUT 2 ENABLE
 
 
 

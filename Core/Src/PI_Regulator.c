@@ -70,7 +70,7 @@ void PID_Init(PI_ControllerTYPEDEF *Direct_PID, PI_ControllerTYPEDEF *Quadrature
   Reactive_PID->Max_PID_Output = FALSE;
   Reactive_PID->Min_PID_Output = FALSE;
 
-  Bus_DC_PID->Reference = 13000;//11000; //7692; //8200;//8500; //13000; //15000  //Brak zmian (load żarówki)
+  Bus_DC_PID->Reference = 10000;//11000; //7692; //8200;//8500; //13000; //15000  //Brak zmian (load żarówki)
   Bus_DC_PID->Kp_Gain = 8000;//8116;//8100;//8100;//10000;//24000;   //5000      //PID_KP_DEFAULT;
   Bus_DC_PID->Ki_Gain = 400;//600;//200;//1050;//20//400;    //300   //PID_KI_DEFAULT;
 
